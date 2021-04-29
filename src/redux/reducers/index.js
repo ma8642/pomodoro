@@ -17,8 +17,7 @@ const initialState = {
 };
 
 const updateTimeLeft = (type, timeBlock, state) => {
-  console.log("Doin the damn thing");
-  //only update timeLeft if time changing corresponds to the current timeBlock
+  // only update timeLeft if time changing corresponds to the current timeBlock
   if (state.timeLeft === "00:00") {
     if (state[timeBlock] < 10) {
       return `0${state[timeBlock]}:00`;
@@ -28,7 +27,6 @@ const updateTimeLeft = (type, timeBlock, state) => {
   }
   if (state.timeBlock === timeBlock) {
     let timeLeft = state.timeLeft;
-    console.log(timeLeft);
     let [minutesLeft, secondsLeft] = timeLeft
       .split(":")
       .map((numStr) => parseInt(numStr));
@@ -38,7 +36,6 @@ const updateTimeLeft = (type, timeBlock, state) => {
       minutesLeft -= 1;
     } else if (type === "subSec") {
       secondsLeft -= 1;
-      console.log("seconds Left:", secondsLeft);
     }
 
     let [newMinutesLeft, newSecondsLeft] = ["", ""];
@@ -64,10 +61,8 @@ const updateTimeLeft = (type, timeBlock, state) => {
 };
 
 const pomodoroReducer = (state = initialState, action) => {
-  console.log(state);
   switch (action.type) {
     case INCREMENT: {
-      console.log(`Increment ${action.payload}`);
       if (state[action.payload] < 60) {
         let newTime = state[action.payload] + 1;
         let timeLeft = updateTimeLeft("addMin", action.payload, state);
@@ -87,7 +82,6 @@ const pomodoroReducer = (state = initialState, action) => {
       return { ...state };
     }
     case DECREMENT: {
-      console.log(`Decrement ${action.payload}`);
       if (state[action.payload] > 1) {
         let newTime = state[action.payload] - 1;
         let timeLeft = updateTimeLeft("subMin", action.payload, state);
@@ -107,7 +101,6 @@ const pomodoroReducer = (state = initialState, action) => {
       return { ...state };
     }
     case START_TIMER: {
-      console.log(`Start timer for ${state.timeBlock}!`);
       let timerSelector = action.timerSelector;
       return {
         ...state,
@@ -116,20 +109,16 @@ const pomodoroReducer = (state = initialState, action) => {
       };
     }
     case STOP_TIMER:
-      console.log(`Stop timer for ${state.timeBlock}`);
       return { ...state, started: false };
     case TICK_TOCK: {
-      console.log(`Tick tock ${action.payload}`);
       let timeBlock = state.timeBlock;
       let timeLeft = updateTimeLeft("subSec", timeBlock, state);
       if (state.timeLeft === "00:01") {
-        console.log(`TIME TO SWITCH ${state.timeLeft}`);
         timeBlock = state.timeBlock === "focusTime" ? "breakTime" : "focusTime"; // update to next timeBlock
       }
       return { ...state, timeBlock, timeLeft };
     }
     case RESET: {
-      console.log(`Reset timer for ${state.timeBlock}!`);
       return {
         ...state,
         started: false,
@@ -140,7 +129,6 @@ const pomodoroReducer = (state = initialState, action) => {
       };
     }
     default: {
-      console.log(`Default`);
       return { ...state };
     }
   }
