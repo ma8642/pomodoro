@@ -20,11 +20,10 @@ For mobile users all controls are always visible.
 
 # To Run
 1. Run yarn start
-2. Calculate!
 
 ## Running tests
 1. Click the hamburger menu in the upper left corner
-2. Select "Javascript Calculator" from the dropdown menu
+2. Select "25 + 5 Clock" from the dropdown menu
 3. Click "Run Tests"
 
 
